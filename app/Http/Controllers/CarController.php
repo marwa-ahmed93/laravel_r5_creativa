@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -10,7 +11,9 @@ class CarController extends Controller
 {
    public function index(){
     $cars = Car::all();
-    return view('car.index' , compact('cars'));
+    // $cars = Car::onlyTrashed()->get();
+    // $cars->restore();
+  return view('car.index' , compact('cars'));
    }
 
    public function create(){
@@ -47,4 +50,14 @@ Car::create([
 
 
    }
+
+
+
+public function destroy($id){
+     $car = Car::findOrFail($id);
+        $car->delete();
+
+        return redirect()->route('car.index')->with('success', 'Car deleted successfully');
+}
+
 }

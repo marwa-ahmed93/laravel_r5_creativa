@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -61,13 +62,53 @@ class UserController extends Controller
     }
        
 
+//update
 
-public function show($id)
+public function edit($id){
+    $user = User::findOrFail($id);
+    return view('user.edit' , compact('user'));
+}
+
+
+public function update(Request $request , $id){
+    
+//  dd($request->all());
+ $validate =    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $id,
+        'password' =>'nullable|string|min:6|max:255'
+    ]);
+
+    $user = User::findOrFail($id);
+
+    $data = [
+        'name' => $validate['name'],
+        'email' => $validate['email'],
+       
+    ];
+
+  if (!empty($validate['password'])) {
+        $data['password'] = Hash::make($validate['password']);
+    }
+
+    $user->update($data);
+    return redirect()->route('user.index')->with('success', 'User updated successfully');
+
+}
+
+public function 
+show($id)
     {
        // $user = User::findOrFail($id);  //ORM  404
     // $user =  DB::table('users')->where('id', $id)->first();  //Query Builder
-        $user = DB::table('users')->find($id);  //Query Builder 404
-        return view('user.show', compact('user'));
+       //// $user = DB::table('users')->find($id);  //Query Builder 404
+        //return view('user.show', compact('user'));
+
+
+$user = User::findOrFail($id)->first() ;
+return view('user.show', compact('user'));
+// dd($user->national_id()) ;
+
     }
 
     public function destroy($id)
