@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\DriverController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckIsAdmin;
 use Illuminate\Support\Facades\Route;
@@ -77,6 +78,9 @@ Route::post('/login' , [AuthController::class , 'login' ])->name('login.form') ;
 }) ;
 
 
+
+
+Route::get('/drivers' , [DriverController::class , 'index'])->name('driver.index');
 
 // Route::get('/user' , [UserController::class , 'index'])->name('user.index');
 // Route::get('/user/create' , [UserController::class , 'create'])->name('user.create');

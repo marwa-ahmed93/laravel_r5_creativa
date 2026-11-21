@@ -17,7 +17,7 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#">Drivers</a>
+          <a class="nav-link" href="{{route('driver.index')}}">Drivers</a>
         </li>
 
         <li class="nav-item">
